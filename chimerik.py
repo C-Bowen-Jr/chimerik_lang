@@ -7,6 +7,8 @@ class Chimerik:
         self.token_feed = self.tokens()
         self.returned_token = None
         self.stack = []
+        self.variables = {}
+        self.token_list = ["trooden", "="]
 
     def raise_error(self, message):
         raise ValueError(f'Line {self.line_nr}: {message}')
@@ -15,10 +17,12 @@ class Chimerik:
         for line in self.code.strip().split('\n'):
             self.line_nr += 1
             for token in line.strip().split(' '):
-                if token == 'trooden':
+                if token in self.token_list:
                     yield (token,)
                 elif token.isnumeric():
                     yield ('number', int(token))
+                elif token[0].isalpha():
+                    yield ('identifier', token)
                 else:
                     self.raise_error(f'Syntax Error: Invalid token {token}')
             yield ('\n',)
@@ -51,11 +55,26 @@ class Chimerik:
         return True
 
     def parse_statement(self):
-        if not self.parse_print_statement():
-            self.raise_error("Expected: trooden statement")
+        if not self.parse_print_statement() and not self.parse_assignment():
+            self.raise_error("Expected: statement to be valid")
         token = self.next_token()
         if token[0] != '\n':
             self.raise_error("Expected: end of line")
+        return True
+
+    def parse_assignment(self):
+        token = self.next_token()
+        if token[0] != 'identifier':
+            self.return_token(token)
+            return False
+        identifier = token[1]
+        token = self.next_token()
+        if token[0] != '=':
+            self.raise_error("Expected: =")
+        if not self.parse_expression():
+            self.raise_error("Expected: expression")
+
+        self.variables[identifier] = self.stack_pop()
         return True
 
     def parse_print_statement(self):
@@ -72,9 +91,15 @@ class Chimerik:
 
     def parse_expression(self):
         token = self.next_token()
-        if token[0] != 'number':
+        if token[0] not in ['number', 'identifier']:
             self.return_token(token)
             return False
+
+        if token[0] == 'identifier':
+            if token[1] not in self.variables:
+                self.raise_error(f"Syntax Error: unknown variable {token[1]}")
+            else:
+                self.stack_push(self.variables[token[1]])
 
         self.stack_push(token[1])
         return True
@@ -86,6 +111,7 @@ class Chimerik:
         return self.stack.pop()
 
     def run(self):
+        print(list(self.tokens()))
         try:
             return self.parse_program()
         except ValueError as exc:
