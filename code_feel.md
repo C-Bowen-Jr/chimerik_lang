@@ -2,6 +2,15 @@
 
 The following are not set in stone, but likely code to narrow down exact grammar and syntax.
 
+## Grammar
+```
+<program> = <statement> [ <statement> ... ]
+<statement> = (<print_statement> | <assignment>) "\n"
+<print_statement> = "print" <expression>
+<assignment> = identifier "=" <expression>
+<expression> = number | identifier
+```
+
 ## Hello World
 ```Chimerik
 trooden("Hello world!")

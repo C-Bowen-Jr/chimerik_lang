@@ -1,54 +1,80 @@
-import sys
-from sly import Lexer, Parser
+class Execute:
+    def __init__(self, tree, names):
+        self.names = names
+        result = self.walkTree(tree)
+        if result is not None and isinstance(result, int):
+            print(result)
+        if isinstance(result, str) and result[0] == '"':
+            print(result)
 
-class Chimerik_Lexer(Lexer):
-    tokens = { ID, MUTABLE, TYPE, IMMUTABLE, NUMBER, ASSIGN, IF, ELSE, END }
-    literals = { '+', '-', '*', '/', '(', ')', '{', '}', '[', ']', '.', ';' }
+    def walkTree(self, node):
+        if isinstance(node, int):
+            return node
+        if isinstance(node, str):
+            return node
 
-    ignore = ' \t'
-    ignore_comment = r'\\\\.'
-    ignore_newline = r'\n+'
-    
-    MUTABLE = r'imil'
-    ID = r'[a-zA-Z_][a-zA-Z0-9_]*'
-    ID['if'] = IF
-    ID['else'] = ELSE
-    ID['ston'] = IMMUTABLE
-    ID['int'] = TYPE
-    NUMBER = r'\d+'
-    ASSIGN = r'='
-    END = r';'
+        if node is None:
+            return None
 
-    def __init__(self):
-        self.para_nest_count = 0
-        self.curly_nest_count = 0
-        self.bracket_next_count = 0
-        self.line_number = 0
+        if node[0] == 'program':
+            if node[1] == None:
+                self.walkTree(node[2])
+            else:
+                self.walkTree(node[1])
+                self.walkTree(node[2])
 
-    @_(r'\n+')
-    def ignore_newline(self, t):
-        self.line_number += len(t.value)
+        if node[0] == 'num':
+            return node[1]
 
+        if node[0] == 'string':
+            return node[1]
 
-    def error(self, t):
-        print(f"Line {self.line_number}: Bad character {t.value[0]}")
-        self.index += 1
+        if node[0] == 'add':
+            return self.walkTree(node[1]) + self.walkTree(node[2])
+        elif node[0] == 'sub':
+            return self.walkTree(node[1]) - self.walkTree(node[2])
+        elif node[0] == 'times':
+            return self.walkTree(node[1]) * self.walkTree(node[2])
+        elif node[0] == 'div':
+            return self.walkTree(node[1]) / self.walkTree(node[2])
+        elif node[0] == 'greater':
+            return self.walkTree(node[1]) > self.walkTree(node[2])
+        elif node[0] == 'less':
+            return self.walkTree(node[1]) < self.walkTree(node[2])
+        elif node[0] == 'less_or_equal':
+            return self.walkTree(node[1]) <= self.walkTree(node[2])
+        elif node[0] == 'greater_or_equal':
+            return self.walkTree(node[1]) >= self.walkTree(node[2])
 
-class Chimerik_Parser(Parser):
-    tokens = Chimerik_Lexer.tokens
+        if node[0] == 'var_assign':
+            self.names[node[1]] = self.walkTree(node[2])
+            return node[1]
 
-    def __init__(self):
-        self.names = ()
+        if node[0] == 'input':
+            self.names[node[1]] = input(node[2])
+            return node[1]
 
-    @_("MUTABLE TYPE ID ASSIGN NUMBER END")
-    def numeric_assignment(self, p):
-        print(f"{p.ID} is a {p.MUTABLE} {p.TYPE} containing {p.NUMBER}")
+        if node[0] == 'var':
+            try:
+                return self.names[node[1]]
+            except LookupError:
+                print("Undefined variable '"+node[1]+"' found!")
 
-if __name__ == '__main__':
-    with open(sys.argv[1], 'rt') as source_file:
-        code = source_file.read()
-    lexer = Chimerik_Lexer()
-    parser = Chimerik_Parser()
-    for tok in lexer.tokenize(code):
-        print(f"type={tok.type}: value={tok.value}")
-    result = parser.parse(lexer.tokenize(code))
+        if node[0] == 'print':
+            print(self.walkTree(node[1]))
+
+        if node[0] == 'datatype':
+            data = str(type(self.walkTree(node[1])))
+            return data[data.find('\'') + 1: len(data) - 2]
+
+        if node[0] == 'int_con':
+            return int(self.walkTree(node[1]))
+
+        if node[0] == 'str_con':
+            return str(self.walkTree(node[1]))
+
+        if node[0] == 'compare':
+            if self.walkTree(node[1]):
+                return self.walkTree(node[2])
+            else:
+                return self.walkTree(node[3])
