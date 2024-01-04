@@ -1,10 +1,11 @@
-// Single line comment;
-// Second line comment;
+// Single line comment
+// Second line comment
 /* Block comment
-goes over multiple lines*/;
+goes over multiple lines*/
 
 x = 4;
 trooden(x);
 
 y = x * 4;
-trooden(y);
+trooden(y)
+

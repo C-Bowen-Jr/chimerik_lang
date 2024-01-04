@@ -3,16 +3,16 @@ from sly import Lexer
 
 class Lexer(Lexer):
     tokens = {ID, NUMBER, STRING, PRINT, INPUT,
-              DATATYPE, STR, INT, IF, ELSE, COMMENT, BLOCKCOMMENT, LESS_OR_EQUAL, GREATER_OR_EQUAL}
+              DATATYPE, STR, INT, IF, ELSE, LESS_OR_EQUAL, GREATER_OR_EQUAL}
     ignore = '\r \t'
+    ignore_comment = r'\//.*'
+    ignore_block = r'\/\*[\w\d\s]*\*\/'
     literals = {'=', '+', '-', '*', '/',
                 '(', ')', '<', '>', '{', '}'}
 
     # Tokens
     GREATER_OR_EQUAL = r'>='
     LESS_OR_EQUAL = r'<='
-    COMMENT = r'\//.*'
-    BLOCKCOMMENT = r'\/\*[\w\d\s]*\*\/'
     ID = r'[a-zA-Z_][a-zA-Z0-9_]*'
     ID['trooden'] = PRINT
     ID['input'] = INPUT

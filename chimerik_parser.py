@@ -15,14 +15,6 @@ class Parser(Parser):
     def __init__(self):
         self.names = {}
 
-    @_('COMMENT')
-    def statement(self, p):
-        pass
-
-    @_('BLOCKCOMMENT')
-    def statement(self, p):
-        pass
-
     @_('IF "(" expr ")" "{" statement "}" ELSE "{" statement "}" ')
     def statement(self, p):
         return ('compare', p.expr, p.statement0, p.statement1)
