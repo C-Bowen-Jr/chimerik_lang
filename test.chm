@@ -1,11 +1,5 @@
-// Single line comment
-// Second line comment
-/* Block comment
-goes over multiple lines*/
-
-x = 4;
-trooden(x);
-
-y = x * 4;
-trooden(y)
-
+if (viseld) {
+    trooden("true");
+} else {
+    trooden("false");
+}

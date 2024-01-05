@@ -3,21 +3,25 @@ from chimerik_parser import Parser
 from chimerik import Execute
 from sys import argv
 import os
+import pprint
 
 
 if __name__ == '__main__':
-	lexer = Lexer()
-	parser = Parser()
-	names = {}
+    lexer = Lexer()
+    parser = Parser()
+    names = {}
 
-	# arg filename or default to main.chm
-	filename = argv[1] if argv[1] != "" else 'main.chm'
-	if not os.path.exists(filename):
-		print(f"Source file named {filename} not present.")
-		exit()
-	source_file = open(filename, 'r')
-	lines = source_file.read().split(';')
-	for line in lines:
-		if line:
-			tree = parser.parse(lexer.tokenize(line))
-			Execute(tree, names)
+    # arg filename or default to main.chm
+    filename = argv[1] if argv[1] != "" else 'main.chm'
+    if not os.path.exists(filename):
+        print(f"Source file named {filename} not present.")
+        exit()
+    source_file = open(filename, 'r')
+    code = source_file.read()
+    try: 
+        tree = parser.parse(lexer.tokenize(code))
+        program = Execute(names)
+        print(tree)
+        program.evaluate(tree)
+    except EOFError:
+        print("Error with tree")

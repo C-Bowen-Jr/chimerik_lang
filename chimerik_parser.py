@@ -4,111 +4,172 @@ from chimerik_lexer import Lexer
 
 class Parser(Parser):
     tokens = Lexer.tokens
-
-    #debugfile = 'parser.log'
-
+    #debugfile = "debug.log"
     precedence = (
-        ('left', '+', '-'),
-        ('left', '*', '/'),
-        ('right', 'UMINUS', '<', '>', 'GREATER_OR_EQUAL', 'LESS_OR_EQUAL'))
+        ('right', COLON),
+        ('left', OR, AND), 
+        ('left', EQ, LT , GT ,NE), 
+        ('left', PLUS, MINUS),
+        ('left', TIMES, DIVIDE),   
+        ('left', POW), 
+        ('left', MOD),
+        ('right', UMINUS),
+        ('left', WHILE, DO),
+        ('left', IF, ELIF, ELSE),  
+        ('left', PRINT, INPUT)
+        )
 
     def __init__(self):
-        self.names = {}
+        self.names = { }
+        self.prompt = True
 
-    @_('IF "(" expr ")" "{" statement "}" ELSE "{" statement "}" ')
-    def statement(self, p):
-        return ('compare', p.expr, p.statement0, p.statement1)
+    ############################################################
+    # MAIN
+    ############################################################
 
-    @_('ID "=" expr')
+    @_('statements')
+    def main(self, p):
+        return ('main', p.statements)
+
+    @_('statement')
+    def statements(self,p):
+        return ('statements', [p.statement])
+
+    @_('statements statement')
+    def statements(self,p):
+        return ('statements', p.statements[1] + [p.statement])
+
+
+    ############################################################
+    # STATEMENTS
+    ############################################################
+
+    @_('PRINT LPAREN statement RPAREN ";"')
     def statement(self, p):
-        self.names[p.ID] = p.expr[1]
-        return ('var_assign', p.ID, p.expr)
+        return ('print', p.statement)
+
+    @_('INPUT LPAREN statement RPAREN ";"')
+    def statement(self, p):
+        return ('input', p.statement)
 
     @_('expr')
     def statement(self, p):
-        return (p.expr)
+        return ('statement-expr', p.expr)
 
-    @_('PRINT "(" expr ")" ')
+    @_('NAME ASSIGN statement ";"')
     def statement(self, p):
-        return ('print', p.expr)
+        return ('assign', p.NAME, p.statement)
 
-    @_('ID "=" INPUT "(" ")" ')
+    @_('IF expr LBRAC statements RBRAC [ ELIF expr LBRAC statements RBRAC ] [ ELSE LBRAC statements RBRAC ] ')
     def statement(self, p):
-        return ('input', p.ID, "")
+        return ('if-elif-else', p.expr0 ,p.statements0, p.expr1, p.statements1, p.statements2)
 
-    @_('ID "=" INPUT "(" STRING ")" ')
+    @_('WHILE expr DO LBRAC statements RBRAC')
     def statement(self, p):
-        return ('input', p.ID, p.STRING)
+        return ('while', p.expr, p.statements)
 
-    @_('expr ">" expr')
+    @_('PASS')
+    def statement(self, p):
+        return ('pass',)
+
+    @_('BREAK')
+    def statement(self, p):
+        return ('break',)
+
+    ############################################################
+    # Expressions
+    ############################################################
+
+    @_(' "[" params "]"')
     def expr(self, p):
-        return ('greater', p.expr0, p.expr1)
+        return ('list', p.params)
 
-    @_('expr "<" expr')
+    @_('params COMMA expr')
+    def params(self, p):
+        return ('params', p.params[1] + [p.expr])
+
+    @_('expr')
+    def params(self, p):
+        return ('params', [p.expr])
+
+    @_('BOOL')
     def expr(self, p):
-        return ('less', p.expr0, p.expr1)
+        return('bool', p.BOOL)
 
-    @_('expr GREATER_OR_EQUAL expr')
+    @_('expr PLUS expr')
     def expr(self, p):
-        return ('less_or_equal', p.expr0, p.expr1)
+        return ('plus', p.expr0, p.expr1)
 
-    @_('expr LESS_OR_EQUAL expr')
+    @_('expr MINUS expr')
     def expr(self, p):
-        return ('greater_or_equal', p.expr0, p.expr1)
+        return ('minus', p.expr0, p.expr1)
 
-    @_('DATATYPE "(" expr ")" ')
-    def expr(self, p):
-        return ('datatype', p.expr)
-
-    @_('INT "(" expr ")" ')
-    def expr(self, p):
-        return ('int_con', p.expr)
-
-    @_('STR "(" expr ")" ')
-    def expr(self, p):
-        return ('str_con', p.expr)
-
-    @_('expr "+" expr')
-    def expr(self, p):
-        try:
-            return ('add', p.expr0, p.expr1)
-        except TypeError:
-            return f'Unsupported data type \'+\' for {p.expr0} and {p.expr1}'
-
-    @_('expr "-" expr ')
-    def expr(self, p):
-        try:
-            return ('sub', p.expr0, p.expr1)
-        except TypeError:
-            return f'Unsupported data type \'-\' for {p.expr0} and {p.expr1}'
-
-    @_('expr "*" expr ')
+    @_('expr TIMES expr')
     def expr(self, p):
         return ('times', p.expr0, p.expr1)
 
-    @_('expr "/" expr ')
+    @_('expr DIVIDE expr')
     def expr(self, p):
-        return ('div', p.expr0, p.expr1)
+        return ('divide', p.expr0, p.expr1)
 
-    @_('"-" expr %prec UMINUS')
+    @_('expr MOD expr')
     def expr(self, p):
-        return p.expr
+        return ('mod', p.expr0, p.expr1)
 
-    @_('"(" expr ")"')
+    @_('expr POW expr')
     def expr(self, p):
-        return (p.expr)
+        return ('pow', p.expr0, p.expr1)
+   
+    @_('expr EQ expr')
+    def expr(self, p):
+        return ('equals', p.expr0, p.expr1)
+
+    @_('expr NE expr')
+    def expr(self, p):
+        return ('ne', p.expr0, p.expr1)
+
+    @_('expr GT expr')
+    def expr(self, p):
+        return ('gt', p.expr0, p.expr1)
+
+    @_('expr LT expr')
+    def expr(self, p):
+        return ('lt', p.expr0, p.expr1)
+
+    @_('expr AND expr')
+    def expr(self, p):
+        return ('and', p.expr0, p.expr1)
+
+    @_('expr OR expr')
+    def expr(self, p):
+        return ('or', p.expr0, p.expr1)
+
+
+    @_('INC NAME %prec UMINUS')
+    def expr(self, p):
+        return ('inc', p.NAME)    
+
+    @_('DEC NAME %prec UMINUS')
+    def expr(self, p):
+        return ('dec', p.NAME)    
+
+    @_('expr ":" expr %prec COLON')
+    def expr(self, p):
+        return ('index', p.expr0, p.expr1)
+
+
+    @_('LPAREN expr RPAREN')
+    def expr(self, p):
+        return ('paren', p.expr)
 
     @_('NUMBER')
     def expr(self, p):
-        return ('num', p.NUMBER)
+        return ('number', p.NUMBER)
 
     @_('STRING')
     def expr(self, p):
         return ('string', p.STRING)
 
-    @_('ID')
+    @_('NAME')
     def expr(self, p):
-        try:
-            return ('var', p.ID)
-        except:
-            return f'Undefined name {p.ID}'
+        return ('name', p.NAME)

@@ -4,11 +4,7 @@ The following are not set in stone, but likely code to narrow down exact grammar
 
 ## Grammar
 ```
-<program> = <statement> [ <statement> ... ]
-<statement> = (<print_statement> | <assignment>) "\n"
-<print_statement> = "print" <expression>
-<assignment> = identifier "=" <expression>
-<expression> = number | identifier
+<program> = <function>
 ```
 
 ## Hello World
@@ -44,9 +40,9 @@ drovok ston.sum(ston.x, ston.y) {
 
 ## Truthyness
 ```Chimerik
-0 == viseld == long
-1 == trigus == laa
-2 == alo x= 3
+0 == viseld // False
+1 == trigus // True
+2 == mirenii // Myabe
 ```
 
 ## Types

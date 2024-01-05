@@ -1,80 +1,188 @@
 class Execute:
-    def __init__(self, tree, names):
+    def __init__(self, names):
         self.names = names
-        result = self.walkTree(tree)
-        if result is not None and isinstance(result, int):
-            print(result)
-        if isinstance(result, str) and result[0] == '"':
-            print(result)
 
-    def walkTree(self, node):
-        if isinstance(node, int):
-            return node
-        if isinstance(node, str):
-            return node
+    
+    def get_obj_type(_obj):
+        return str(type(_obj)).split("'")[1]
 
-        if node is None:
-            return None
+    def evaluate(self, tree):
+        undefined = "Undefined: Variable {0} hasn't been defined!"
+        type_error = "Type Error: You can't use '{op}' with types '{obj1}' and '{obj2}'!"
+        op_mismatch = "Operand Mismatch: You can't use '{op}' with type '{obj}'!"
 
-        if node[0] == 'program':
-            if node[1] == None:
-                self.walkTree(node[2])
-            else:
-                self.walkTree(node[1])
-                self.walkTree(node[2])
+        try:
+            rule = tree[0]
+        except TypeError:
+            return print("Parsed tree contains something invalid.")
 
-        if node[0] == 'num':
-            return node[1]
+        if rule == 'main':
+            self.evaluate(tree[1])
+        elif rule == 'statements':
+            results = []
+            for i in tree[1]:
+                results.append(self.evaluate(i))
+            return results
+        elif rule == 'statement-expr':
+            value = self.evaluate(tree[1])
+            return value
+        elif rule == 'assign':
+            value = self.evaluate(tree[2])
+            name = tree[1]
+            self.names[name] = value
+            return value
 
-        if node[0] == 'string':
-            return node[1]
-
-        if node[0] == 'add':
-            return self.walkTree(node[1]) + self.walkTree(node[2])
-        elif node[0] == 'sub':
-            return self.walkTree(node[1]) - self.walkTree(node[2])
-        elif node[0] == 'times':
-            return self.walkTree(node[1]) * self.walkTree(node[2])
-        elif node[0] == 'div':
-            return self.walkTree(node[1]) / self.walkTree(node[2])
-        elif node[0] == 'greater':
-            return self.walkTree(node[1]) > self.walkTree(node[2])
-        elif node[0] == 'less':
-            return self.walkTree(node[1]) < self.walkTree(node[2])
-        elif node[0] == 'less_or_equal':
-            return self.walkTree(node[1]) <= self.walkTree(node[2])
-        elif node[0] == 'greater_or_equal':
-            return self.walkTree(node[1]) >= self.walkTree(node[2])
-
-        if node[0] == 'var_assign':
-            self.names[node[1]] = self.walkTree(node[2])
-            return node[1]
-
-        if node[0] == 'input':
-            self.names[node[1]] = input(node[2])
-            return node[1]
-
-        if node[0] == 'var':
+        elif rule == 'times':
+            multiplier = self.evaluate(tree[1])
+            multiplicand = self.evaluate(tree[2])
             try:
-                return self.names[node[1]]
-            except LookupError:
-                print("Undefined variable '"+node[1]+"' found!")
+                return multiplier * multiplicand
+            except TypeError:
+                return print(type_error.format(op="*", obj1=get_obj_type(multiplier), obj2=get_obj_type(multiplicand)))
+        elif rule == 'plus':
+            addend1 = self.evaluate(tree[1])
+            addend2 = self.evaluate(tree[2])
+            try:
+                return addend1 + addend2
+            except TypeError:
+                return print(type_error.format(op="+", obj1=get_obj_type(addend1), obj2=get_obj_type(addend2)))
+        elif rule == 'minus':
+            minuend = self.evaluate(tree[1])
+            subtrahend = self.evaluate(tree[2])
+            try:
+                return minuend - subtrahend
+            except TypeError:
+                return print(type_error.format(op="-", obj1=get_obj_type(minuend), obj2=get_obj_type(subtrahend)))
+        elif rule == 'divide':
+            dividend = self.evaluate(tree[1])
+            divisor = self.evaluate(tree[2])
+            try:
+                return dividend / divisor
+            except TypeError:
+                return print(type_error.format(op="/", obj1=get_obj_type(dividend), obj2=get_obj_type(divisor)))
+        elif rule == 'mod':
+            a = self.evaluate(tree[1])
+            n = self.evaluate(tree[2])
+            try:
+                return a % n
+            except TypeError:
+                return print(type_error.format(op="%", obj1=get_obj_type(a), obj2=get_obj_type(n)))
+        elif rule == 'pow':
+            target_num = self.evaluate(tree[1])
+            exponent = self.evaluate(tree[2])
+            try:
+                return target_num ** exponent
+            except TypeError:
+                return print(type_error.format(op="^", obj1=get_obj_type(target_num), obj2=get_obj_type(exponent)))
+    
+        elif rule == 'equals':
+            return int(self.evaluate(tree[1]) == self.evaluate(tree[2]))
+        elif rule == 'ne':
+            return int(self.evaluate(tree[1]) != self.evaluate(tree[2]))
+        elif rule == 'gt':
+            return int(self.evaluate(tree[1]) > self.evaluate(tree[2]))
+        elif rule == 'lt':
+            return int(self.evaluate(tree[1]) < self.evaluate(tree[2]))
+        elif rule == 'and':
+            return int(self.evaluate(tree[1]) and self.evaluate(tree[2]))
+        elif rule == 'or':
+            return int(self.evaluate(tree[1]) or eself.valuate(tree[2]))
 
-        if node[0] == 'print':
-            print(self.walkTree(node[1]))
 
-        if node[0] == 'datatype':
-            data = str(type(self.walkTree(node[1])))
-            return data[data.find('\'') + 1: len(data) - 2]
+        elif rule == 'uminus':
+            return -self.evaluate(tree[1])
+        elif rule == 'inc':
+            name = tree[1]
 
-        if node[0] == 'int_con':
-            return int(self.walkTree(node[1]))
+            try:        
+                oldval = self.names[tree[1]]
+            except KeyError:
+                return print(undefined.format(name))        
+            newval = oldval + 1
+        
+            self.names[name] = newval
+            return newval
+        elif rule == 'dec':
+            name = tree[1]
+            try:        
+                oldval = self.names[tree[1]]
+            except KeyError:
+                return print(undefined.format(name)) 
 
-        if node[0] == 'str_con':
-            return str(self.walkTree(node[1]))
+            newval = oldval - 1
+        
+            self.names[name] = newval
+            return newval
+        elif rule == 'number':
+            try:
+                return int(tree[1])
+            except ValueError:
+                return float(tree[1])
+        elif rule == 'string':
+            return str(tree[1])
+        elif rule == 'list':
+            results = []
+            for i in tree[1][1]:
+                results.append(self.evaluate(i))
+            return results
 
-        if node[0] == 'compare':
-            if self.walkTree(node[1]):
-                return self.walkTree(node[2])
+        elif rule == 'bool':
+            return int(tree[1])
+
+        elif rule == 'name':
+            varname = tree[1]
+            try:
+                return self.names[varname]
+            except KeyError:
+                print(undefined.format(varname))
+        elif rule == 'index':
+            op = self.evaluate(tree[1])
+            index = self.evaluate(tree[2])
+            try:
+                return op[index]
+            except IndexError as e:
+                print(f'Index error: {e}')
+            except TypeError as e:
+                print(f'Type Error: Only lists and strings can be indexed')
+        elif rule == 'paren':
+            return self.evaluate(tree[1])
+
+        elif rule == 'pass':
+            pass
+        elif rule == 'break':
+            return Break()
+        elif rule == 'print':
+            value = self.evaluate(tree[1])
+            print(value)
+            return value
+        elif rule == 'input':
+            value = self.evaluate(tree[1])
+            res = input(value)
+            try:
+                res = float(res)
+            except ValueError:
+                pass
+            return res
+        elif rule == 'if-elif-else':
+            expr1 = self.evaluate(tree[1])
+            expr2 = None if tree[3] is None else eself.valuate(tree[3])
+            if expr1:
+                return self.evaluate(tree[2])
+            elif expr2:
+                return self.evaluate(tree[4])
             else:
-                return self.walkTree(node[3])
+                if tree[5]:
+                    return self.evaluate(tree[5])
+                else:
+                    pass
+        elif rule == 'while':
+            while self.evaluate(tree[1]):
+                results = self.evaluate(tree[2])
+            
+                if any([isinstance(res,Break) for res in results]):
+                    break
+        else:
+            #print(rule, tree)
+            pass
+class Break:
+    pass
