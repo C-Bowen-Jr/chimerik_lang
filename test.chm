@@ -1,5 +1,3 @@
-if (viseld) {
-    trooden("true");
-} else {
-    trooden("false");
-}
+x = -1;
+x.ap;
+trooden(x);

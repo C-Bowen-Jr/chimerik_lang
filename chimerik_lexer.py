@@ -4,7 +4,7 @@ from sly import Lexer
 class Lexer(Lexer):
     tokens = { NAME, NUMBER, PLUS, TIMES, MINUS, DIVIDE, MOD, POW, ASSIGN, LPAREN, RPAREN,
                IF, ELIF, ELSE, WHILE, DO, BREAK, BOOL, STRING, PRINT, INPUT, INC, DEC, EQ, GT, LT, NE, PASS,
-               LBRAC, RBRAC, OR, AND, COMMA}
+               LBRAC, RBRAC, OR, AND, COMMA, DOT}
     ignore = '\r \t'
     ignore_newline = r'\n+'
     ignore_comment = r'\//.*'
@@ -23,8 +23,8 @@ class Lexer(Lexer):
     NAME['break'] = BREAK
     NAME['trooden'] = PRINT
     NAME['input'] = INPUT
-    NAME['inc'] = INC
-    NAME['dec'] = DEC
+    NAME['ap'] = INC
+    NAME['dek'] = DEC
     NAME['nothing'] = PASS
     NAME['and'] = AND
     NAME['or'] = OR
@@ -48,6 +48,7 @@ class Lexer(Lexer):
     NE = r'!='
     ASSIGN = r'='
     COMMA = r','
+    DOT = r'\.'
 
     @_(r'\d+')
     def NUMBER(self, t):

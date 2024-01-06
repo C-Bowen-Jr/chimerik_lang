@@ -6,7 +6,7 @@ class Parser(Parser):
     tokens = Lexer.tokens
     #debugfile = "debug.log"
     precedence = (
-        ('right', COLON),
+        ('right', COLON, DOT),
         ('left', OR, AND), 
         ('left', EQ, LT , GT ,NE), 
         ('left', PLUS, MINUS),
@@ -96,6 +96,10 @@ class Parser(Parser):
     def expr(self, p):
         return('bool', p.BOOL)
 
+    @_('MINUS expr %prec UMINUS')
+    def expr(self, p):
+        return('uminus', p.expr)
+
     @_('expr PLUS expr')
     def expr(self, p):
         return ('plus', p.expr0, p.expr1)
@@ -145,12 +149,12 @@ class Parser(Parser):
         return ('or', p.expr0, p.expr1)
 
 
-    @_('INC NAME %prec UMINUS')
-    def expr(self, p):
+    @_('NAME DOT INC ";"')
+    def statement(self, p):
         return ('inc', p.NAME)    
 
-    @_('DEC NAME %prec UMINUS')
-    def expr(self, p):
+    @_('NAME DOT DEC ";"')
+    def statement(self, p):
         return ('dec', p.NAME)    
 
     @_('expr ":" expr %prec COLON')
