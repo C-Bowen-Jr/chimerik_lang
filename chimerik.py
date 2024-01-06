@@ -32,6 +32,15 @@ class Execute:
             self.names[name] = value
             return value
 
+        elif rule == "func_define":
+            value = tree[2]
+            name = tree[1]
+            self.names[name] = value
+            return value
+
+        elif rule == 'func_call':
+            return self.evaluate(self.names[tree[1]])
+
         elif rule == 'times':
             multiplier = self.evaluate(tree[1])
             multiplicand = self.evaluate(tree[2])

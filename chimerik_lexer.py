@@ -2,7 +2,7 @@ from sly import Lexer
 
 
 class Lexer(Lexer):
-    tokens = { NAME, NUMBER, PLUS, TIMES, MINUS, DIVIDE, MOD, POW, ASSIGN, LPAREN, RPAREN,
+    tokens = { NAME, NUMBER, FUNC_DEFINE, PLUS, TIMES, MINUS, DIVIDE, MOD, POW, ASSIGN, LPAREN, RPAREN,
                IF, ELIF, ELSE, WHILE, DO, BREAK, BOOL, STRING, PRINT, INPUT, INC, DEC, EQ, GT, LT, NE, PASS,
                LBRAC, RBRAC, OR, AND, COMMA, DOT}
     ignore = '\r \t'
@@ -28,6 +28,7 @@ class Lexer(Lexer):
     NAME['nothing'] = PASS
     NAME['and'] = AND
     NAME['or'] = OR
+    NAME['drovok'] = FUNC_DEFINE
 
     NUMBER = r'\d+\.{0,1}\d*'
 

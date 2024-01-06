@@ -5,8 +5,7 @@ linguistic conlang (constructed language). This project is an attempt at
 repurposing it's lexicon for a programming language. This is intended 
 entirely as a toy language.
 
-The current state is just a tweaked version of [this tutorial](https://blog.miguelgrinberg.com/post/building-a-toy-programming-language-in-python) until 
-I can make worth while changes.
+The current state is just a tweaked version of swas.
 
 ## Why use this language?
 
@@ -23,3 +22,7 @@ do use it, here are some of it's neat features.
 
 This project is still very early in development. The goal is to have a 
 serviceable amount of syntax and grammar. 
+
+### Notes to self:
+
+The following will be useful when enough grammar and syntax are nailed down [VS Code Syntax Highlight Guide](https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#textmate-grammars)
