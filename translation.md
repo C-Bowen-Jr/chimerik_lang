@@ -23,6 +23,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 ```not``` (nought: old english) Null
  - Might not be used, but named in case
 
+```obid``` (haubiþ: gothic) Head
+ - Default main function
+
 ```ston``` (stone: english) Constant
  - Constant or immutable
 

@@ -1,5 +1,3 @@
-drovok head{
+drovok obid{
     trooden("Hello world");
 }
-
-head();

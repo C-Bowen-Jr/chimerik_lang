@@ -19,9 +19,10 @@ if __name__ == '__main__':
     source_file = open(filename, 'r')
     code = source_file.read()
     try: 
+        code += "obid();" # hackish way to run head
         tree = parser.parse(lexer.tokenize(code))
         program = Execute(names)
-        print(tree)
+        print(f"\nDebug:\n{tree}\n\n")
         program.evaluate(tree)
     except EOFError:
         print("Error with tree")
