@@ -1,3 +1,18 @@
-drovok obid{
-    trooden("Hello world");
+// Hello World:
+//  This program examples how to define a function aside from the 
+//  default head function. We print "Hello world" in that function 
+//  and then call our user defined function.
+
+drovok Greetings(phrase){
+    trooden(phrase);
+}
+
+drovok GoodByes(phrase){
+    trooden(phrase);
+}
+drovok obid(){
+    goodBye = "Good bye";
+    Greetings("Good morning");
+    trooden("Good afternoon, and...");
+    GoodByes(goodBye);
 }

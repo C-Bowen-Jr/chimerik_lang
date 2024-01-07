@@ -7,7 +7,7 @@ class Lexer(Lexer):
                LBRAC, RBRAC, OR, AND, COMMA, DOT}
     ignore = '\r \t'
     ignore_newline = r'\n+'
-    ignore_comment = r'\//.*'
+    ignore_comment = r'\/\/.*'
     ignore_block = r'\/\*[\w\d\s]*\*\/'
     literals = { '[', ']', '(' , ')', ':', ';' }
 

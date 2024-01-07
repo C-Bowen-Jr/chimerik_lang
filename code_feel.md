@@ -33,8 +33,8 @@ Greeting += " world";
 
 ## Function
 ```Chimerik
-drovok sum(ston.x, ston.y) {
-    goiims (x + y)
+drovok sum(int x, int y) => int {
+    goiims = x + y;
 }
 ```
 

@@ -44,13 +44,21 @@ class Parser(Parser):
     # STATEMENTS
     ############################################################
 
-    @_('FUNC_DEFINE NAME LBRAC statements RBRAC')
+    @_('FUNC_DEFINE NAME LPAREN RPAREN LBRAC statements RBRAC')
     def statement(self, p):
         return ('func_define', p.NAME, p.statements)
+
+    @_('FUNC_DEFINE NAME LPAREN params RPAREN LBRAC statements RBRAC')
+    def statement(self, p):
+        return ('func_define', p.NAME, p.statements, p.params)
 
     @_('NAME LPAREN RPAREN ";"')
     def statement(self, p):
         return ('func_call', p.NAME)
+
+    @_('NAME LPAREN params RPAREN ";"')
+    def statement(self, p):
+        return ('func_call', p.NAME, p.params)
 
     @_('PRINT LPAREN statement RPAREN ";"')
     def statement(self, p):

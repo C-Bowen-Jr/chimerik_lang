@@ -1,7 +1,7 @@
 class Execute:
     def __init__(self, names):
         self.names = names
-
+        self.scopes = {}
     
     def get_obj_type(_obj):
         return str(type(_obj)).split("'")[1]
@@ -33,13 +33,40 @@ class Execute:
             return value
 
         elif rule == "func_define":
+            params = None if len(tree) <= 3 else tree[3][1]
             value = tree[2]
             name = tree[1]
-            self.names[name] = value
+            #self.names[name] = value
+            self.names[name] = {'params': params, 'body': value}
             return value
 
         elif rule == 'func_call':
-            return self.evaluate(self.names[tree[1]])
+            args = None if len(tree) <= 2 else tree[2][1]
+            name = tree[1]
+            func_info = self.names[name]
+            params = func_info['params']
+            body = func_info['body']
+            local_scope = {}
+
+            if args != None:
+                for param, arg in zip(params, args):
+                    if isinstance(arg, tuple) and arg[0] == 'assign':
+                        arg_name = arg[1]
+                        arg_value = self.evaluate(arg[2])
+                        local_scope[arg_name] = arg_value
+                    else:
+                        local_scope[param[1]] = self.evaluate(arg)
+            
+                # chatGPT Madness, some similarity to gh.com/SniperRacc/vappy, so maybe accurate?
+                temp_scope = self.scopes.copy()
+                temp_scope.update(local_scope)
+                self.scopes = temp_scope
+
+                results = self.evaluate(body)
+                self.scopes = self.scopes.copy()
+                return results
+            else:
+                return self.evaluate(body)
 
         elif rule == 'times':
             multiplier = self.evaluate(tree[1])
@@ -95,7 +122,7 @@ class Execute:
         elif rule == 'and':
             return int(self.evaluate(tree[1]) and self.evaluate(tree[2]))
         elif rule == 'or':
-            return int(self.evaluate(tree[1]) or eself.valuate(tree[2]))
+            return int(self.evaluate(tree[1]) or self.valuate(tree[2]))
 
 
         elif rule == 'uminus':
@@ -140,6 +167,10 @@ class Execute:
 
         elif rule == 'name':
             varname = tree[1]
+            try:
+                return self.scopes[varname]
+            except KeyError:
+                pass
             try:
                 return self.names[varname]
             except KeyError:
