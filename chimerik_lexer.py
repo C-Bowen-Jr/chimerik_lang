@@ -2,7 +2,7 @@ from sly import Lexer
 
 
 class Lexer(Lexer):
-    tokens = { NAME, NUMBER, FUNC_DEFINE, PLUS, TIMES, MINUS, DIVIDE, MOD, POW, ASSIGN, LPAREN, RPAREN,
+    tokens = { NAME, FLOAT, NUMBER, FUNC_DEFINE, PLUS, TIMES, MINUS, DIVIDE, MOD, POW, ASSIGN, LPAREN, RPAREN,
                IF, ELIF, ELSE, WHILE, DO, BREAK, BOOL, STRING, PRINT, INPUT, INC, DEC, EQ, GT, LT, NE, PASS,
                LBRAC, RBRAC, OR, AND, COMMA, DOT}
     ignore = '\r \t'
@@ -18,19 +18,20 @@ class Lexer(Lexer):
     NAME['if'] = IF 
     NAME['elif'] = ELIF
     NAME['else'] = ELSE
-    NAME['while'] = WHILE
+    NAME['veeil'] = WHILE
     NAME['do'] = DO
     NAME['break'] = BREAK
     NAME['trooden'] = PRINT
     NAME['input'] = INPUT
     NAME['ap'] = INC
     NAME['dek'] = DEC
-    NAME['nothing'] = PASS
+    NAME['forbise'] = PASS
     NAME['and'] = AND
     NAME['or'] = OR
     NAME['drovok'] = FUNC_DEFINE
 
-    NUMBER = r'\d+\.{0,1}\d*'
+    FLOAT = r'\d+\.\d*'
+    NUMBER = r'\d+'
 
     # Operators
     PLUS = r'\+'
@@ -50,6 +51,11 @@ class Lexer(Lexer):
     ASSIGN = r'='
     COMMA = r','
     DOT = r'\.'
+
+    @_(r'\d+\.\d*')
+    def FLOAT(self, t):
+        t.value = float(t.value)
+        return t
 
     @_(r'\d+')
     def NUMBER(self, t):

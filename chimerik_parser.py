@@ -186,6 +186,10 @@ class Parser(Parser):
     def expr(self, p):
         return ('number', p.NUMBER)
 
+    @_('FLOAT')
+    def expr(self, p):
+        return ('float', p.FLOAT)
+
     @_('STRING')
     def expr(self, p):
         return ('string', p.STRING)

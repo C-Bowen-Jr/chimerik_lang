@@ -17,6 +17,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 ```immil``` (himmel: german) Variable
  - As var stands for variable, iml stands for immil
 
+```forbise``` (förbise: Swedish) Overlook
+ - Pass
+
 ```melem``` (lem: pie, lem: limb) Error
  - Error type
 
@@ -37,6 +40,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 
 ```trooden```(trudan: gothic) Print
  - Print(<string>)
+
+```veeil``` (hveila: gothic) While
+ - Do While
 
 ```viseld``` (viseleda: swedish) False
  - False value
