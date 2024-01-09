@@ -11,14 +11,35 @@ Chimerik the programming language is based on the conlang of the same name. This
 ```drovok``` (dreh: dovakiin, werk: german) Function
  - Function funcationName(params) {}
 
+```duu``` (do: english) do
+ - ...
+
+```entir``` (ent: german, hir: chimerik) lastly, if nothing else
+ - hir, lefir, entir
+
 ```goiims``` (gå: swedish, haims: gothic) Return
  - Returns value
+
+```hir``` (here: english) if
+ - hir trigus: {}
 
 ```immil``` (himmel: german) Variable
  - As var stands for variable, iml stands for immil
 
+```inforse``` (in: english/gothic, tillförsel: swedish) - be given
+ - input("prompt");
+
 ```forbise``` (förbise: Swedish) Overlook
  - Pass
+
+```lef``` (left: english) - or, the other other
+ - A lef B
+
+```lefir``` (lef: chimerik, hir chimerik) or if
+ - else if
+
+```leev``` (leave: english) exit
+ - break loop or code block early
 
 ```melem``` (lem: pie, lem: limb) Error
  - Error type
@@ -32,6 +53,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 ```ston``` (stone: english) Constant
  - Constant or immutable
 
+```til``` (till: Swedish) For
+ - ...
+
 ```trigus``` (triggws: gothic) True
  - True value
 
@@ -40,6 +64,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 
 ```trooden```(trudan: gothic) Print
  - Print(<string>)
+
+```und``` (und: german) and
+ - A und B
 
 ```veeil``` (hveila: gothic) While
  - Do While

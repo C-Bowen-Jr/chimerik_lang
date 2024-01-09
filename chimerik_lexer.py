@@ -15,19 +15,19 @@ class Lexer(Lexer):
     BOOL = r'trigus|viseld'
     NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
     
-    NAME['if'] = IF 
-    NAME['elif'] = ELIF
-    NAME['else'] = ELSE
+    NAME['hir'] = IF 
+    NAME['lefir'] = ELIF
+    NAME['entir'] = ELSE
     NAME['veeil'] = WHILE
-    NAME['do'] = DO
-    NAME['break'] = BREAK
+    NAME['duu'] = DO
+    NAME['leev'] = BREAK
     NAME['trooden'] = PRINT
-    NAME['input'] = INPUT
+    NAME['inforse'] = INPUT
     NAME['ap'] = INC
     NAME['dek'] = DEC
     NAME['forbise'] = PASS
-    NAME['and'] = AND
-    NAME['or'] = OR
+    NAME['und'] = AND
+    NAME['lef'] = OR
     NAME['drovok'] = FUNC_DEFINE
 
     FLOAT = r'\d+\.\d*'
