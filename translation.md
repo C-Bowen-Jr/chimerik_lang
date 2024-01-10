@@ -17,6 +17,12 @@ Chimerik the programming language is based on the conlang of the same name. This
 ```entir``` (ent: german, hir: chimerik) lastly, if nothing else
  - hir, lefir, entir
 
+```esach``` (exakt: swedish) - non whole number
+ - float
+
+```gansflet``` (ganse: german, flight: english) - binary tree
+ - binary tree
+
 ```goiims``` (gå: swedish, haims: gothic) Return
  - Returns value
 
@@ -28,6 +34,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 
 ```inforse``` (in: english/gothic, tillförsel: swedish) - be given
  - input("prompt");
+
+```intach``` (intakt: swedish) - whole number
+ - integer
 
 ```forbise``` (förbise: Swedish) Overlook
  - Pass
@@ -55,6 +64,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 
 ```til``` (till: Swedish) For
  - ...
+
+```tonabich``` (tabaniku: japanese) trail, sequence
+ - tonabich = "Hello World";
 
 ```trigus``` (triggws: gothic) True
  - True value
