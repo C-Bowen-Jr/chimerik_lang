@@ -2,7 +2,7 @@ from sly import Lexer
 
 
 class Lexer(Lexer):
-    tokens = { NAME, FLOAT, NUMBER, FUNC_DEFINE, PLUS, TIMES, MINUS, DIVIDE, MOD, POW, ASSIGN, LPAREN, RPAREN,
+    tokens = { NAME, FLOAT, NUMBER, FUNC_DEFINE, TYPE_DEF, PLUS, TIMES, MINUS, DIVIDE, MOD, POW, ASSIGN, LPAREN, RPAREN,
                IF, ELIF, ELSE, WHILE, DO, BREAK, BOOL, STRING, PRINT, INPUT, INC, DEC, EQ, GT, LT, NE, PASS,
                LBRAC, RBRAC, OR, AND, COMMA, DOT}
     ignore = '\r \t'
@@ -13,6 +13,7 @@ class Lexer(Lexer):
 
     # Tokens
     BOOL = r'trigus|viseld'
+    TYPE_DEF = r'zviisida|triisida|intach|esach|tonabich'
     NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
     
     NAME['hir'] = IF 

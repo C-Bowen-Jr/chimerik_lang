@@ -1,0 +1,28 @@
+// These tests are written to follow the intended functionality of the 
+// language. They may revert to more primitive forms while in live 
+// feature testing, or given implementational success (lack there of)
+// take different form
+
+drovok some_function() {
+    // goiims is the return variable, it returns its value at the end 
+    // of the function.
+    goiims = 5;
+    goiims.ap;
+
+    // Use goiims(); to return like a normal return();, or goiims(expr); 
+    // for syntactical sugar of goiims = expr; goiims();
+}
+
+drovok obid() {
+    // Various variables (mutable)
+    imil.bool = trigus;
+    imil.trilian = maybe;
+    imil.int bits = 256;
+    imil.float liters = 2.5;
+    imil.string phrase = "Don't worry, it'll get worse before it gets worse."
+
+    // Constants (immutable)
+    ston.int SOME_AMOUT = some_function();
+    ston.string SAYING = 'Strings are strings, regardless of quote marks.'
+    
+}

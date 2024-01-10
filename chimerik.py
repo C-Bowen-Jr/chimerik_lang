@@ -2,13 +2,15 @@ class Execute:
     def __init__(self, names):
         self.names = names
         self.scopes = {}
+        self.type_map = {"bool": "zviisida", "int": "intach", "float": "esach", "str": "tonabich"}
     
-    def get_obj_type(_obj):
+    def get_obj_type(self, _obj):
         return str(type(_obj)).split("'")[1]
 
     def evaluate(self, tree):
         undefined = "Undefined: Variable {0} hasn't been defined!"
         type_error = "Type Error: You can't use '{op}' with types '{obj1}' and '{obj2}'!"
+        assign_error = "Assignment Error: You can't assign '{obj1}' to '{obj2}' typed variable!"
         op_mismatch = "Operand Mismatch: You can't use '{op}' with type '{obj}'!"
 
         try:
@@ -26,8 +28,13 @@ class Execute:
         elif rule == 'statement-expr':
             value = self.evaluate(tree[1])
             return value
+
         elif rule == 'assign':
-            value = self.evaluate(tree[2])
+            value = self.evaluate(tree[3])
+            value_py_type = self.get_obj_type(value)
+            if self.type_map[value_py_type] != tree[2]:
+                return print(assign_error.format(obj1=self.type_map[value_py_type], obj2=tree[2]))    
+            
             name = tree[1]
             self.names[name] = value
             return value
@@ -154,6 +161,8 @@ class Execute:
                 return int(tree[1])
             except ValueError:
                 return float(tree[1])
+        elif rule == 'float':
+            return float(tree[1])
         elif rule == 'string':
             return str(tree[1])
         elif rule == 'list':
@@ -163,7 +172,7 @@ class Execute:
             return results
 
         elif rule == 'bool':
-            return int(tree[1])
+            return bool(tree[1])
 
         elif rule == 'name':
             varname = tree[1]

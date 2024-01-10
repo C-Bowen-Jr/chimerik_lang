@@ -1,18 +1,10 @@
-// Hello World:
-//  This program examples how to define a function aside from the 
-//  default head function. We print "Hello world" in that function 
-//  and then call our user defined function.
+// testing types
 
-drovok Greetings(phrase){
-    trooden(phrase);
-}
-
-drovok GoodByes(phrase){
-    trooden(phrase);
-}
 drovok obid(){
-    goodBye = "Good bye";
-    Greetings("Good morning");
-    trooden("Good afternoon, and...");
-    GoodByes(goodBye);
+    intach x = 1;
+    intach y = x + 3;
+    esach z = 1.0;
+    zviisida onoff = trigus;
+    tonabich a = "Text example";
+    esach nope = "wont work";
 }

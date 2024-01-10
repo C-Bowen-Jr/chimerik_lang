@@ -72,9 +72,9 @@ class Parser(Parser):
     def statement(self, p):
         return ('statement-expr', p.expr)
 
-    @_('NAME ASSIGN statement ";"')
+    @_('TYPE_DEF NAME ASSIGN statement ";"')
     def statement(self, p):
-        return ('assign', p.NAME, p.statement)
+        return ('assign', p.NAME, p.TYPE_DEF, p.statement)
 
     @_('IF expr LBRAC statements RBRAC [ ELIF expr LBRAC statements RBRAC ] [ ELSE LBRAC statements RBRAC ] ')
     def statement(self, p):
