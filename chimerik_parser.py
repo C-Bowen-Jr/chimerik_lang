@@ -64,9 +64,9 @@ class Parser(Parser):
     def statement(self, p):
         return ('print', p.statement)
 
-    @_('INPUT LPAREN statement RPAREN ";"')
+    @_('TYPE_DEF NAME ASSIGN INPUT LPAREN statement RPAREN ";"')
     def statement(self, p):
-        return ('input', p.statement)
+        return ('input', p.NAME, p.TYPE_DEF, p.statement)
 
     @_('expr')
     def statement(self, p):

@@ -205,13 +205,29 @@ class Execute:
             print(value)
             return value
         elif rule == 'input':
-            value = self.evaluate(tree[1])
-            res = input(value)
+            output = self.evaluate(tree[3])
+            res = input(output)
+            assignType = 'string'
+
             try:
-                res = float(res)
-            except ValueError:
-                pass
-            return res
+                value = float(res)
+                if value.is_integer() and res.find(".") == -1:
+                    value = int(value)
+                    assignType = 'number'
+                else:
+                    assignType = 'float'
+                
+            except:
+                value = res
+            
+            if tree[2] == 'intach' and assignType != 'number':
+                print(f"Failed to assign intach, got {assignType}")
+            elif tree[2] == 'esach' and assignType != 'float':
+                print(f"Failed to assign esach, got {assignType}")
+            elif tree[2] == 'tonabich' and assignType != 'string': 
+                print(f"Failed to assign tonabich, got {assignType}")
+            
+            return self.evaluate(('assign', tree[1], tree[2], ('statement-expr', (assignType, value))))
         elif rule == 'if-elif-else':
             expr1 = self.evaluate(tree[1])
             expr2 = None if tree[3] is None else eself.valuate(tree[3])

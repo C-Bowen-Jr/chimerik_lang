@@ -21,8 +21,8 @@ if __name__ == '__main__':
     try: 
         code += "obid();" # hackish way to run head
         tree = parser.parse(lexer.tokenize(code))
-        program = Execute(names)
         print(f"\nDebug:\n{tree}\n\n")
+        program = Execute(names)
         program.evaluate(tree)
     except EOFError:
         print("Error with tree")

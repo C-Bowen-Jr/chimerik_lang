@@ -1,0 +1,12 @@
+// This is a sample program to help calculate
+//   the price per unit of a thing.
+
+drovok obid() {
+
+    tonabich item = inforse("Hello, what are you buying?\n> ");
+    esach cost = inforse("How much was it?\n>");
+    intach quantity = inforse("How many uses do you get?\n>");
+
+    esach perunits = cost / quantity;
+    trooden(perunits);
+}
