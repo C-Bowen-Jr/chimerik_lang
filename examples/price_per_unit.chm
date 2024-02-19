@@ -3,7 +3,7 @@
 
 drovok obid() {
 
-    tonabich item = inforse("Hello, what are you buying?\n> ");
+    tonabich item = inforse("\033[91mHello, what are you buying?\n\033[0m> ");
     esach cost = inforse("How much was it?\n>");
     intach quantity = inforse("How many uses do you get?\n>");
 

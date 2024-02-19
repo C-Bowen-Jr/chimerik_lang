@@ -3,10 +3,13 @@
 // feature testing, or given implementational success (lack there of)
 // take different form
 
-drovok some_function() {
+drovok some_function(intach value) {
     // goiims is the return variable, it returns its value at the end 
     // of the function.
-    goiims = 5;
+    imil.intach goiims = value;
+    hir trigus und trigus {
+        trooden("Extra true");
+    }
     goiims.ap;
 
     // Use goiims(); to return like a normal return();, or goiims(expr); 
@@ -15,14 +18,14 @@ drovok some_function() {
 
 drovok obid() {
     // Various variables (mutable)
-    imil.bool = trigus;
-    imil.trilian = maybe;
-    imil.int bits = 256;
-    imil.float liters = 2.5;
-    imil.string phrase = "Don't worry, it'll get worse before it gets worse."
+    imil.zviisida = trigus;
+    imil.triisida = maybe;
+    imil.intach bits = 256;
+    imil.esach liters = 2.5;
+    imil.tonabich phrase = "Don't worry, it'll get worse before it gets worse."
 
     // Constants (immutable)
-    ston.int SOME_AMOUT = some_function();
-    ston.string SAYING = 'Strings are strings, regardless of quote marks.'
+    ston.intach SOME_AMOUT = some_function();
+    ston.tonabich SAYING = 'Strings are strings, regardless of quote marks.'
     
 }

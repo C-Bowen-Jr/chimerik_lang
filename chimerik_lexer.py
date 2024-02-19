@@ -66,6 +66,7 @@ class Lexer(Lexer):
     @_(r'''("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')''')
     def STRING(self, t):
         t.value = t.value[1:-1]
+        t.value = t.value.encode().decode("unicode_escape")
         return t
 
     @_(r'trigus|viseld')
