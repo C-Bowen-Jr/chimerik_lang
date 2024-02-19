@@ -164,7 +164,10 @@ class Execute:
         elif rule == 'float':
             return float(tree[1])
         elif rule == 'string':
-            return str(tree[1])
+            formatted = str(tree[1])
+            for var in self.names:
+                formatted = formatted.replace(f"{{{var}}}", str(self.names[var]))
+            return formatted
         elif rule == 'list':
             results = []
             for i in tree[1][1]:

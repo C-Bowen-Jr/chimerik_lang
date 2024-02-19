@@ -8,5 +8,5 @@ drovok obid() {
     intach quantity = inforse("How many uses do you get?\n>");
 
     esach perunits = cost / quantity;
-    trooden(perunits);
+    trooden("{item} is ${perunits} per unit.");
 }

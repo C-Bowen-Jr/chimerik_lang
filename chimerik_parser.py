@@ -192,6 +192,7 @@ class Parser(Parser):
 
     @_('STRING')
     def expr(self, p):
+        
         return ('string', p.STRING)
 
     @_('NAME')
