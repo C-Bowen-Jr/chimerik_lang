@@ -211,7 +211,8 @@ class Execute:
 
             try:
                 value = float(res)
-                if value.is_integer() and res.find(".") == -1:
+                # valid int assigning to int, otherwise float even if coerced
+                if value.is_integer() and tree[2] == 'intach':
                     value = int(value)
                     assignType = 'number'
                 else:
