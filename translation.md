@@ -5,14 +5,26 @@ Chimerik the programming language is based on the conlang of the same name. This
 ```ap``` (.hack) Up
  - Incrementer, similar to i++
 
+```baas``` (base: german/english) default
+ - default
+
+```bleos``` (blaewaz: proto-german) blue
+ - color
+
 ```dek``` (.hack) Down
-  - Decrementer, similar to i--
+ - Decrementer, similar to i--
 
 ```drovok``` (dreh: dovakiin, werk: german) Function
  - Function funcationName(params) {}
 
+```donchir``` (dunkel: german) shadowed / purple
+ - color
+
 ```duu``` (do: english) do
  - ...
+
+```etechopir``` (alter: german, kupar: proto-german) teal
+ - color
 
 ```entir``` (ent: german, hir: chimerik) lastly, if nothing else
  - hir, lefir, entir
@@ -22,6 +34,12 @@ Chimerik the programming language is based on the conlang of the same name. This
 
 ```gansflet``` (ganse: german, flight: english) - binary tree
  - binary tree
+
+```garu``` (grewa: proto-germanic) - grey
+ - color
+
+```gires``` (gaers: old english) - green
+ - color
 
 ```goiims``` (gå: swedish, haims: gothic) Return
  - Returns value
@@ -53,11 +71,17 @@ Chimerik the programming language is based on the conlang of the same name. This
 ```melem``` (lem: pie, lem: limb) Error
  - Error type
 
+```mesich``` (messing: german) gold / brass / yellow
+ - color
+
 ```not``` (nought: old english) Null
  - Might not be used, but named in case
 
 ```obid``` (haubiþ: gothic) Head
  - Default main function
+
+```rath``` (rauthan: proto-german, rathian: monster hunter) red
+ - color
 
 ```ston``` (stone: english) Constant
  - Constant or immutable
@@ -82,6 +106,9 @@ Chimerik the programming language is based on the conlang of the same name. This
 
 ```veeil``` (hveila: gothic) While
  - Do While
+
+```viiest``` (hveits: gothic) white
+ - color
 
 ```viseld``` (viseleda: swedish) False
  - False value

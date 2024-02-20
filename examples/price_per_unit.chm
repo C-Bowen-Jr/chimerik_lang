@@ -3,10 +3,10 @@
 
 drovok obid() {
 
-    tonabich item = inforse("\033[91mHello, what are you buying?\n\033[0m> ");
-    esach cost = inforse("How much was it?\n>");
-    intach quantity = inforse("How many uses do you get?\n>");
+    tonabich item = inforse("\a2.rath:Hello, what are you buying?\n\a.baas:> ");
+    esach cost = inforse("\a2.rath:How much was it?\n\a.baas:>");
+    intach quantity = inforse("\a2.rath:How many uses do you get?\n\a.baas:>");
 
     esach perunits = cost / quantity;
-    trooden("{item} is ${perunits} per unit.");
+    trooden("\a3.bleos:{item}\a.baas: is \a1.gires:${perunits}\a.baas per unit.");
 }

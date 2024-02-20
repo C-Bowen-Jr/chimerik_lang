@@ -66,6 +66,31 @@ class Lexer(Lexer):
     @_(r'''("[^"\\]*(\\.[^"\\]*)*"|'[^'\\]*(\\.[^'\\]*)*')''')
     def STRING(self, t):
         t.value = t.value[1:-1]
+        ansiTable = ["garu", "rath", "gires", "mesich", "bleos", "donchir", "etechopir", "viiest"]
+
+        # Standard Foreground
+        if "\\a1." in t.value:
+            for color in ansiTable:
+                colorCode = 30 + ansiTable.index(color)
+                t.value = t.value.replace(f"\\a1.{color}:", f"\033[{colorCode}m")
+        # Light Foreground
+        if "\\a2." in t.value:
+            for color in ansiTable:
+                colorCode = 90 + ansiTable.index(color)
+                t.value = t.value.replace(f"\\a2.{color}:", f"\033[{colorCode}m")
+        # Standard Background
+        if "\\a3." in t.value:
+            for color in ansiTable:
+                colorCode = 40 + ansiTable.index(color)
+                t.value = t.value.replace(f"\\a3.{color}:", f"\033[{colorCode}m")
+        # Light Background
+        if "\\a4." in t.value:
+            for color in ansiTable:
+                colorCode = 100 + ansiTable.index(color)
+                t.value = t.value.replace(f"\\a4.{color}:", f"\033[{colorCode}m")
+        # Restore
+        t.value = t.value.replace("\\a.baas:", "\033[m")
+
         t.value = t.value.encode().decode("unicode_escape")
         return t
 
